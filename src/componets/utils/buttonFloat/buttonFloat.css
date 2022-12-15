@@ -1,0 +1,10 @@
+
+.buttonFloat{
+    position: fixed;
+    width: 60px;
+    bottom: 20px;
+    right: 30px;
+    background: #007BFF;
+    border-radius: 20px;
+    color:#FFF;
+}
