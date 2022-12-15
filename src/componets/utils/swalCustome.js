@@ -95,7 +95,7 @@ export const inputMailSwal =async (callback)=>{
     const { value: email } = await Swal.fire({
         title: 'Recuperar contraseña',
         input: 'email',
-        inputLabel: 'Escribe tu suario',
+        inputLabel: 'Escribe tu nombre de usuario',
         inputPlaceholder: '...'
     });
     callback(email);
