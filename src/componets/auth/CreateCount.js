@@ -108,7 +108,7 @@ export const Count = () => {
     }
 
     if(!!name)
-        return <Navigate to="/inicio"/>;
+        return <Navigate to="/cuenta"/>;
 
     return (
         <div className="login-area login-bg">
