@@ -2,9 +2,6 @@ import { useContext , memo, useEffect } from 'react';
 import {customeContext} from '../../context/context';
 import {subscribe} from '../../helpers/subscribe';
 
-
-
-
 const HomeScreen = memo(() => {
 
     const { setContext } = useContext(customeContext);
@@ -20,15 +17,21 @@ const HomeScreen = memo(() => {
     useEffect(() => {
         console.log('segun inscritos')
         console.log(Notification.permission)
-    }, [])
+    }, []);
 
     const notificaciones = ()=>{
-        new Notification('holi', {
-            body: 'message',
-            tag: 'simple-push-demo-notification'
-          });
-
         subscribe();
+    }
+
+    const msje = async()=>{
+        
+        const serviceWorkerReg = await navigator.serviceWorker.register('sw.js');
+
+        const options = {
+            body: 'Simple piece of body text.\nSecond line of body text :)',
+        };
+
+        serviceWorkerReg.showNotification('hola', options);
     }
 
     return (
@@ -41,6 +44,8 @@ const HomeScreen = memo(() => {
 
                                 <h4 className="text-center">INICIO</h4>
                                 <button className="btn btn-success" onClick={notificaciones}>Recibir notificaciones</button>
+
+                                <button className="btn btn-success" onClick={msje}>a ver</button>
 
                             </div>
                         </div>

@@ -1,11 +1,13 @@
 
 
 export const subscribe = async () => {
+    
+    console.log("Iniciando suscribción");
 
     const serviceWorkerReg = await navigator.serviceWorker.register('sw.js');
 
     let subscription = await serviceWorkerReg.pushManager.getSubscription();
-   
+
     if (subscription === null) {
 
         subscription = await serviceWorkerReg.pushManager.subscribe ({
@@ -13,9 +15,8 @@ export const subscribe = async () => {
             applicationServerKey: process.env.REACT_APP_VAPID_PUBLIC_KEY,
         });
 
-        console.log(subscription);
-
-        const url = 'http://localhost:9000';
+        const url = 'https://notificaciones-push-backend-production.up.railway.app';
+        console.log('suscrito a: ' + url );
 
         const options = {
             method:'POST',
@@ -23,7 +24,8 @@ export const subscribe = async () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                token: subscription
+                token: subscription,
+                id:1024
             })
         }
 

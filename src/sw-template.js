@@ -2,21 +2,28 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox
 
 workbox.precaching.precacheAndRoute( self.__WB_MANIFEST );
 
-window.addEventListener('push', async function (event) {
-    const message = await event.data.json ();
-    let {title, description, image} = message;
-    console.log ({message});
-    await event.waitUntil (
-      registration.showNotification (title, {
-        body: description,
-        icon: image,
-        actions: [
-          {
-            title: 'say hi',
-          },
-        ],
-      })
-    );
-  });
+self.addEventListener('push', async function(event) {
 
-);
+    const message = await event.data.json();
+    let {title, body, image, data} = message;
+
+    const promiseChain = self.registration.showNotification(title,{
+        body,
+        image,
+        data
+    });
+    event.waitUntil(promiseChain);
+});
+
+self.addEventListener('notificationclick', async function(event) {
+    event.notification.close();
+    // Get all the Window clients
+    event.waitUntil(clients.matchAll({ type: 'window' }).then((clientsArr) => {
+        // If a Window tab matching the targeted URL already exists, focus that;
+        const hadWindowToFocus = clientsArr.some((windowClient) => windowClient.url === event.notification.data.url ? (windowClient.focus(), true) : false);
+        // Otherwise, open a new tab to the applicable URL and focus it.
+        if (!hadWindowToFocus) clients.openWindow(event.notification.data.url).then((windowClient) => windowClient ? windowClient.focus() : null);
+    }));
+})
+
+

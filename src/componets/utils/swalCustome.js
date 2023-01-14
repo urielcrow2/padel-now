@@ -56,7 +56,6 @@ export const infoSwal = (params)=>{
         confirmButtonText,
         allowOutsideClick: false
     });
-
 }
 
 export const quetionSwal = (name,img,callback)=>{
