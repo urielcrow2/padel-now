@@ -44,7 +44,6 @@ const HomeScreen = memo(() => {
 
                                 <h4 className="text-center">INICIO</h4>
                                 <button className="btn btn-success" onClick={notificaciones}>Recibir notificaciones</button>
-
                                 <button className="btn btn-success" onClick={msje}>a ver</button>
 
                             </div>
