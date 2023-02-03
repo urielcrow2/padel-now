@@ -3,7 +3,7 @@ import {customeContext} from '../../context/context';
 import {ContextTournamentsVs} from '../../context/ContextTournamentsVs';
 import {GetUserHook} from './GetUserHook';
 import {GetListTournamentHook} from './GetListTournamentHook';
-import {TableTimes} from './TableTimes';
+import {TableTimes3} from './TableTimes3';
 import {TableTimes2} from './TableTimes2';
 import {ButtonFloat} from '../utils/buttonFloat/ButtonFloatComponent';
 import {waitSwal,closeSwal} from '../utils/swalCustome';
@@ -14,7 +14,8 @@ import {PerfilClubsHook} from '../perfil/PerfilClubsHook';
 const TimeScreen = () => {
 
     const {setContext} = useContext(customeContext);
-    const {userP} = useContext(ContextTournamentsVs);
+    const {userP,setUserP,groupVisibility} = useContext(ContextTournamentsVs);
+
 
     //Obtenemos los clubs
     const {clubs,onChangeClub,idClub} = PerfilClubsHook();
@@ -109,7 +110,20 @@ const TimeScreen = () => {
                                     </div>
                                     <div className="col-md-6 mt-5 mb-3 d-flex justify-content-end">
                                         <h5 className="mt-3">Jornada </h5>
-                                        <input type="number" className="form-control" value={ data.journal_active } min="1" max={data.last_journal_close} onChange={onChangeJornada} disabled={data.load} style={{width:80,fontSize:20,textAlign:'center',marginLeft:4,marginRight:4}}/>
+                                        {/* <input type="number" className="form-control" value={ data.journal_active } min="1" max={data.last_journal_close} onChange={onChangeJornada} disabled={data.load} style={{width:80,fontSize:20,textAlign:'center',marginLeft:4,marginRight:4}}/> */}
+                                        {
+                                            data.load 
+                                            ?
+                                                <select className="form-control" disabled={true} style={{width:60,fontSize:16,textAlign:'center',marginLeft:4,marginRight:4}}/>
+                                            :
+                                                <select className="form-control" value={ data.journal_active } onChange={onChangeJornada} style={{width:60,fontSize:16,textAlign:'center',marginLeft:4,marginRight:4}}>
+                                                    {
+                                                        Array(data.last_journal_close).fill().map((value,index)=>(
+                                                            <option value={index+1} key={index}>{index+1}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                        }
                                         <h5 className="mt-3"> de {data.journals_total}</h5>
                                     </div>
                                 </div>
@@ -122,23 +136,28 @@ const TimeScreen = () => {
                                     widthScreen > 920 
 
                                     ?
-                                
-                                        <TableTimes 
-                                            courts={data.times[0]} 
-                                            users={userP} 
-                                            numberPlayers={data.number_players_by_court} 
-                                            onChangeDateSingle={onChangeDateSingle} 
-                                            onChangePoints={onChangePoints}
-                                            upPositionUser={upPositionUser}
-                                            downPositionUser={downPositionUser}
-                                            disabled={true}
-                                            setShowResumen={setShowResumen}
-                                            showResumen={showResumen}
-                                        />
-                                    
-                                    :
 
-                                        <div className="row" style={{marginTop:40}}>
+                                            <div className="row" style={{marginTop:20}}>
+                                                <TableTimes3 
+                                                    courts={data.times[0]} 
+                                                    users={userP} 
+                                                    numberPlayers={data.number_players_by_court} 
+                                                    onChangeDateSingle={onChangeDateSingle} 
+                                                    onChangePoints={onChangePoints}
+                                                    upPositionUser={upPositionUser}
+                                                    downPositionUser={downPositionUser}
+                                                    //disabled={data.last_journal_close === data.journal_active ? false : true}
+                                                    disabled={true}
+                                                    setShowResumen={setShowResumen}
+                                                    showResumen={showResumen}
+                                                    controlVisibility={setUserP}
+                                                    groupVisibility={groupVisibility}
+                                                />
+                                            </div>
+                                           
+                                        :
+
+                                        <div className="row" style={{marginTop:20}}>
                                             <TableTimes2 
                                                 courts={data.times[0]} 
                                                 users={userP} 
@@ -147,9 +166,12 @@ const TimeScreen = () => {
                                                 onChangePoints={onChangePoints}
                                                 upPositionUser={upPositionUser}
                                                 downPositionUser={downPositionUser}
+                                                //disabled={data.last_journal_close === data.journal_active ? false : true}
                                                 disabled={true}
                                                 setShowResumen={setShowResumen}
                                                 showResumen={showResumen}
+                                                controlVisibility={setUserP}
+                                                groupVisibility={groupVisibility}
                                             />
                                         </div>
                                 }

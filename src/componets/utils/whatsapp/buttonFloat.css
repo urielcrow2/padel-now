@@ -1,0 +1,53 @@
+
+.buttonFloatWhats{
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 30px;
+    background: #00BB2D;
+    border-radius: 50%;
+    color:#FFF;
+    z-index: 3;
+    box-shadow: 6px 10px 13px -3px rgba(0,0,0,0.56);
+    -webkit-box-shadow: 6px 10px 13px -3px rgba(0,0,0,0.56);
+    -moz-box-shadow: 6px 10px 13px -3px rgba(0,0,0,0.56);
+}
+
+.etiqueta-whatsapp{
+    position: fixed;
+    bottom:30px;
+    right: 120px;
+    z-index: 3;
+    background: #FFF;
+    box-shadow: 6px 10px 13px -3px rgba(0,0,0,0.56);
+    -webkit-box-shadow: 6px 10px 13px -3px rgba(0,0,0,0.56);
+    -moz-box-shadow: 6px 10px 13px -3px rgba(0,0,0,0.56);
+    padding: 8px;
+    border-radius: 10px;
+    border:2px solid rgba(166, 177, 169, 0.123);
+    animation-duration: 5s;
+    animation-name: slidein;
+}
+
+@keyframes slidein {
+    from {
+      opacity: 0;
+      
+    }
+  
+    to {
+        opacity: 1;
+    }
+  }
+
+.etiqueta-whatsapp label{
+   color:#000;
+}
+
+.etiqueta-whatsapp div img{
+    position:absolute;
+    right:-36px;
+    top:0px;
+    top:1px;
+}

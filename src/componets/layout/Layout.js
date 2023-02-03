@@ -12,7 +12,7 @@ import '../../styles/styles-3998.css';
 
 export const Layout = () => {
 
-    const [showHideSideBar,setShowHideSideBar] = useState(false);
+    const [showHideSideBar,setShowHideSideBar] = useState(true);
     const [widthScreen,setWidthScreen] = useState(window.innerWidth);
 
     useEffect(()=>{

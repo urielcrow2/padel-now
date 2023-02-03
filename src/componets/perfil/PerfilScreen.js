@@ -446,9 +446,8 @@ const PerfilScreen = ()=>{
                                                 guides={false}
                                                 viewMode={1}
                                                 zoomTo={0.2}
-                                                //zoomOnWheel={!toggleBtnSaveImg}
-                                                // checkCrossOrigin={false}
-                                                // checkOrientation={false}
+                                                cropBoxMovable={false}
+                                                toggleDragModeOnDblclick={false}
                                             />
                                             <i className="fa fa-2x fa-picture-o position-absolute" onClick={clickInputFile} style={{top:-20,right:-15,color:'#fff',background:'rgb(9, 139, 206)',padding:12,borderRadius:50}} aria-hidden="true"></i>
                                             <input ref={inputFile} type="file" onChange={onChange} style={{display:'none'}}/>

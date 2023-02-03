@@ -38,7 +38,7 @@ export const RoutApp = ()=>{
         },
         {
             path: '/',
-            element: <Navigate to="/cuenta" />,
+            element: <Navigate to="/inicio" />,
         },
         {
             path: '*',

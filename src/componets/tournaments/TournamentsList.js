@@ -1,4 +1,5 @@
 import { useEffect, useContext,useState} from 'react';
+import fileDownload from 'js-file-download';
 import {ContextTournaments} from '../../context/ContextTournaments';
 import {GetTournamentsHook} from './GetTournamentsHook';
 import {Load2} from '../utils/load2/Load2';
@@ -131,6 +132,34 @@ export const TournamentsList = ()=>{
 
     }
 
+    const descargarTablaGeneral= async(torneo)=>{
+        quetionSwal2(`Descargar tabla general`,`Se descarga la última jornada activa`,async (resp)=>{
+           
+            if(resp.isConfirmed){
+               
+                waitSwal({html:'Generando archivo'});
+                let url = '';
+
+                try{
+                    url = await fetchCustome2({ endpoint : `/reportes/tabla/${torneo}`});
+                } 
+                catch(error){
+                    return infoSwal({
+                        icon: 'error',
+                        title: 'Ocurrio un error',
+                        text: `Error de comunucación con el servidor, intentelo más tarde` ,
+                    })
+                }
+
+                let resp = await fetch(url)
+                resp = await resp.blob();
+                fileDownload(resp, 'tabla_general.pdf');
+
+                mixinSwal({ icon: 'success',title: `Archivo descargado`});
+            }
+        });
+    }
+
     return(
         <div className="table-responsive" style={{padding:25}}>
 
@@ -165,6 +194,7 @@ export const TournamentsList = ()=>{
                                         </div>
                                         <div className="d-flex justify-content-center"><hr style={{width:"80%"}}/></div>
                                         <div className="d-flex justify-content-end">
+                                        <button type="button" title="Descargar tabla general" className="btn btn-outline-primary me-2" onClick={()=>descargarTablaGeneral(tournament.id)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></button>
                                         <button type="button" title="Detalles" className="btn btn-outline-success me-2" onClick={()=>detailTournament(tournament.id)}><i className="fa fa-plus " aria-hidden="true"></i></button>
                                         <button type="button" title="Eliminar" className="btn btn-outline-danger me-2" onClick={()=>deleteTournament(tournament.id,tournament.name)} ><i className="fa fa-trash" aria-hidden="true"></i></button>
                                         <button type="button" title="Archivar / Desarchivar" className="btn btn-outline-secondary" onClick={()=>historyToggle(tournament.id,tournament.status,tournament.name)}><i className="fa fa-history" aria-hidden="true"></i></button>
@@ -198,8 +228,9 @@ export const TournamentsList = ()=>{
                                     <td> {tournament.name}</td>
                                     <td> {formatDateTimeMx(tournament.created_at)}</td>
                                     <td style={{textAlign:'center'}}> {tournament.players} </td>
-                                    <td> <progress value={ 100 / tournament.journals * (parseInt(tournament.last_journal_close) + 1)} max="100"></progress> { Math.floor(100 / tournament.journals * (parseInt(tournament.last_journal_close) + 1) )}%</td>
+                                    <td> <progress value={ 100 / tournament.journals * parseInt(tournament.last_journal_close)} max="100"></progress> { Math.floor(100 / tournament.journals * (parseInt(tournament.last_journal_close)) )}%</td>
                                     <td> 
+                                        <button type="button" title="Descargar tabla general" className="btn btn-outline-primary me-2 mb-md-0 mb-2" onClick={()=>descargarTablaGeneral(tournament.id)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></button>
                                         <button type="button" title="Detalles" className="btn btn-outline-success me-2 mb-md-0 mb-2" onClick={()=>detailTournament(tournament.id)}><i className="fa fa-plus " aria-hidden="true"></i></button>
                                         <button type="button" title="Eliminar" className="btn btn-outline-danger me-2 mb-md-0 mb-2" onClick={()=>deleteTournament(tournament.id,tournament.name)} ><i className="fa fa-trash" aria-hidden="true"></i></button>
                                         <button type="button" title="Archivar / Desarchivar" className="btn btn-outline-secondary" onClick={()=>historyToggle(tournament.id,tournament.status,tournament.name)}><i className="fa fa-history" aria-hidden="true"></i></button>

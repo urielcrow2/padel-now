@@ -35,7 +35,7 @@ const administrador = [
     },
     {
         to: "/torneos",
-        name: "Torneos",
+        name: "Ligas",
         icon: "fa fa-trophy fa-2x fa-fw"
     },
     /*{

@@ -57,7 +57,7 @@ export const SearchTournament = ()=>{
                                             <i className="fa fa-trophy fa-3x"></i>
                                         </div>
                                         <div className="col-8">
-                                            <span className="count-name">Torneos: </span>
+                                            <span className="count-name">Ligas: </span>
                                             <span className="count-numbers">{tournamentsContext.total}</span>
                                         </div>
                                     </div>

@@ -255,7 +255,7 @@ const PerfilScreen = ()=>{
                             <div className ="card-body">
                                 <div className="row">
                                     <div className="col-md-12 col-xs-12 mt-1 mb-3 text-center">
-                                        <h5>Actualiza tu imagen</h5>
+                                        <h5>Actualiza tu imagen--</h5>
                                     </div>
                                     <div className="col-md-12 col-xs-12 mt-2 d-flex justify-content-center">
                                        <div className="position-relative" style={{width:220,border:'2px dashed',padding:8,cursor:'pointer'}}>
@@ -269,9 +269,8 @@ const PerfilScreen = ()=>{
                                                 guides={false}
                                                 viewMode={1}
                                                 zoomTo={0.2}
-                                                //zoomOnWheel={!toggleBtnSaveImg}
-                                                // checkCrossOrigin={false}
-                                                // checkOrientation={false}
+                                                cropBoxMovable={false}
+                                                toggleDragModeOnDblclick={false}
                                             />
                                             <i className="fa fa-2x fa-picture-o position-absolute" onClick={clickInputFile} style={{top:-20,right:-15,color:'#fff',background:'rgb(9, 139, 206)',padding:12,borderRadius:50}} aria-hidden="true"></i>
                                             <input ref={inputFile} type="file" onChange={onChange} style={{display:'none'}}/>

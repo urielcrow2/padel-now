@@ -14,7 +14,7 @@ export const TournamentDates = ()=>{
         setCourts({...formData.journals[ parseInt(e.target.value) - 1]})
     }
 
-    const onChangeDateMasive = (e)=>{
+   const onChangeDateMasive = (e)=>{
     
         //En este caso no estamos actualizando por medio del provider la propiedad journals de la clase formData, en este caso lo hacemos por refrencia
         const temp = {
@@ -23,7 +23,7 @@ export const TournamentDates = ()=>{
 
         Object.keys(temp).forEach(element => {
             temp[element].date = e.target.value
-        });
+        }); 
 
         setCourts(temp);
     }

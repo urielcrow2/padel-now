@@ -14,6 +14,7 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
         number_players_by_court:"...",
         journals_total:"...",
         last_journal_close:"...",
+        last_journal_close_real:"...",
         journal_active:"...",
         initial_date:"...",
         final_date:"...",
@@ -26,6 +27,7 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
         try{
 
             let data = await fetchCustome2( { endpoint : `/tournaments/${idClub}/${idTournament}/${journal}` } );
+            console.log(data)
 
             closeSwal();
 
@@ -41,6 +43,11 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
                 }
             });
 
+            data.players =  data.players.map(player=>({        
+                ...player,
+                visibility:false  
+            }))
+
             /*Los guardo en un provider para manipularlos desde el componente time/ResumenCourt */
             setVs(data.vs)
             setUserP(data.players);
@@ -52,6 +59,7 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
                 number_players_by_court:data.number_players_by_court,
                 journals_total:data.journals_total,
                 last_journal_close: data.last_journal_close,
+                last_journal_close_real:data.last_journal_close_real,
                 journal_active:data.journal_active,
                 initial_date:data.initial_date,
                 final_date:data.final_date,
@@ -65,6 +73,7 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
                 number_players_by_court:0,
                 journals_total:0,
                 last_journal_close:0,
+                last_journal_close_real:0,
                 journal_active:0,
                 initial_date:"",
                 final_date:"",
@@ -89,9 +98,7 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
         setUserP(newUsers);
     }
 
-    
-
-    /*const onChangeDateMasive = (e)=>{
+    const onChangeDateMasive = (e)=>{
         const temp = {
             ...data
         };
@@ -101,7 +108,7 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
         });
 
         setData(temp);
-    }*/
+    }
 
     const onChangeDateSingle = (e,name)=>{
 
@@ -119,18 +126,18 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
 
     }
 
-    const upPositionUser = (id,position)=>{
+    const upPositionUser = (id,position,array)=>{
         //-1,1,-1
-        updatePosition(id,position,1);
+        updatePosition(id,position,1,array);
 
     }
 
-    const downPositionUser = (id,position)=>{
+    const downPositionUser = (id,position,array)=>{
         //1,-1,1
-        updatePosition(id,position,-1);
+        updatePosition(id,position,-1,array);
     }
 
-    const updatePosition  = (id,position,upOrDown)=>{
+    const updatePosition  = (id,position,upOrDown,array)=>{
         
         /*Temporales para actualizar los equipos VS */
         const user1 = {
@@ -149,7 +156,9 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
         /*Actualizamos las posiciones de cada jugador */
         const temp = [
             ...userP
-        ]
+        ];
+
+        
         temp.forEach( (player,index) =>{
             if( player.position ===  position + (-1 * upOrDown) ){
                 player.position = player.position + upOrDown;
@@ -167,6 +176,16 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
             }
         });
         temp.sort( (a,b)=> a.position - b.position);
+
+        /******************En este parte mantenemos el show hide por grupo*/
+        let grupo = -1;
+        temp.forEach( (user,index)=>{
+            if((index + 4) % 4 === 0)
+                grupo++;
+            user.visibility = array[grupo];
+        });
+        /*****************************************************************/
+
         setUserP(temp);
 
         /*Debemos actualizar los equipos VS */
@@ -241,6 +260,86 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
         return temp;
     }
 
+    const subeYbaja1 = (array)=>{
+
+        const arraySuben = [];//[4,8,12];
+        const arrayBajan = [];//[3,7,11];
+
+        let elementosAcambiar = userP.length / 4 - 1;
+
+        for(let i=0;i<elementosAcambiar;i++){
+            arraySuben[i] = 4 * (i + 1)
+            arrayBajan[i] = (4 * (i + 1)) - 1
+        }
+
+        let bdCopy = [...userP];
+
+        for(let i=0;i<arraySuben.length;i++){
+            const temp = bdCopy[arrayBajan[i]];
+            bdCopy[arrayBajan[i]] = bdCopy[arraySuben[i]];
+            bdCopy[arraySuben[i]] = temp;
+        }
+        // let temp = bdCopy[3];
+        // bdCopy[3] = bdCopy[4]
+        // bdCopy[4] = temp;
+        bdCopy.forEach((user,index)=>{
+            user.position = index + 1;
+        })
+
+        /******************En este parte mantenemos el show hide por grupo*/
+        let grupo = -1;
+        bdCopy.forEach( (user,index)=>{
+            if((index + 4) % 4 === 0)
+                grupo++;
+            user.visibility = array[grupo];
+        });
+        /*****************************************************************/
+        setUserP(bdCopy);
+    }
+
+    const subeYbaja2 = (array)=>{
+    
+        const arraySuben = [];//[4,5,8,9,12,13];
+        const arrayBajan = [];//[2,3,6,7,10,11];
+
+        let elementosAcambiar = (userP.length / 4 - 1) * 2;
+
+        for(let i=0;i<elementosAcambiar;i++){
+            if(i%2===0){
+                arraySuben[i] = i===0 ? 4 : arraySuben[i-2] + 4;
+                arrayBajan[i] = i===0 ? 2 : arrayBajan[i-2] + 4;
+
+            }
+            else{
+                arraySuben[i] = i===1 ? 5 : arraySuben[i-2] + 4
+                arrayBajan[i] = i===1 ? 3 : arrayBajan[i-2] + 4;
+
+            }
+        }
+
+        let bdCopy = [...userP];
+
+        for(let i=0;i<arraySuben.length;i++){
+            const temp = bdCopy[arrayBajan[i]];
+            bdCopy[arrayBajan[i]] = bdCopy[arraySuben[i]];
+            bdCopy[arraySuben[i]] = temp;
+        }
+
+        bdCopy.forEach((user,index)=>{
+            user.position = index + 1;
+        })
+
+        /******************En este parte mantenemos el show hide por grupo*/
+        let grupo = -1;
+        bdCopy.forEach( (user,index)=>{
+            if((index + 4) % 4 === 0)
+                grupo++;
+            user.visibility = array[grupo];
+        });
+        /*****************************************************************/
+        setUserP(bdCopy);
+    }
+
 
     useEffect(()=>{
        
@@ -267,6 +366,9 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
         onChangeDateSingle,
         upPositionUser,
         downPositionUser,
-        onChangePoints
+        onChangePoints,
+        onChangeDateMasive,
+        subeYbaja1,
+        subeYbaja2
     }
 }

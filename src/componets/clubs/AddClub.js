@@ -98,8 +98,6 @@ export const AddClub = ({newClub})=>{
                 body:data
             });
 
-            console.log(resp)
-
            if(resp.id){
                 newClub( {
                     id:resp.id,
@@ -162,6 +160,8 @@ export const AddClub = ({newClub})=>{
                         guides={false}
                         viewMode={0}
                         zoomTo={.5}
+                        cropBoxMovable={false}
+                        toggleDragModeOnDblclick={false}
                     />
                     <i className="fa fa-2x fa-picture-o position-absolute" onClick={clickInputFile} style={{top:-20,right:-15,color:'#fff',background:'rgb(9, 139, 206)',padding:12,borderRadius:50}} aria-hidden="true"></i>
                     <input ref={inputFile} type="file" onChange={onChangeImg} style={{display:'none'}}/>

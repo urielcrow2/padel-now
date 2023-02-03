@@ -104,3 +104,17 @@ export const inputMailSwal =async (callback)=>{
 export const closeSwal = ()=>{
     Swal.close();
 }
+
+export const subirBajarSwal = async(callback)=>{
+    const { value: cantidad} = await Swal.fire({
+        title: 'Subir y bajar jugadores por cancha',
+        input: 'select',
+        inputOptions: {
+        '1': 'Uno por cancha',
+        '2': 'Dos por cancha',
+        },
+        // inputPlaceholder: 'Cuantos jugadores',
+        showCancelButton: true
+    });
+    callback(cantidad);
+}

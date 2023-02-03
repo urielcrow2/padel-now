@@ -1,11 +1,35 @@
-import {useRef,useState} from 'react';
+import {useRef,useState,useEffect} from 'react';
 import {ResumenCourt} from './ResumenCourt';
 
-export const TableTimes2 = ({users,numberPlayers,onChangeDateSingle,courts,onChangePoints,disabled,downPositionUser,upPositionUser,showResumen,setShowResumen})=>{
+export const TableTimes2 = ({
+    users,
+    numberPlayers,
+    onChangeDateSingle,
+    courts,
+    onChangePoints,
+    disabled,
+    downPositionUser,
+    upPositionUser,
+    showResumen,
+    setShowResumen,
+    controlVisibility,
+    groupVisibility
+})=>{
     
     const n = useRef(1);
     const [set,setSet] = useState(0);
-    
+
+    const gruposVisibility = useRef([]);
+
+    useEffect(()=>{
+        //necesito crear grupos de 4 jugadores para saber si los oculto o los muestro, mando este arreglo al hook
+        users.forEach((user,index)=>{
+            if((index + numberPlayers) % numberPlayers === 0)
+                gruposVisibility.current.push(false)
+        });
+        groupVisibility.current = gruposVisibility.current;
+    },[]);
+
     const x=()=>{
         if(n.current > 4)
             n.current = 1;
@@ -15,6 +39,28 @@ export const TableTimes2 = ({users,numberPlayers,onChangeDateSingle,courts,onCha
     const detalles = (n)=>{
         setShowResumen(false);
         setSet( Math.floor(n) - 1 );
+    }
+
+    const hideShow = (position)=>{
+        gruposVisibility.current[position/4] = !gruposVisibility.current[position/4];
+
+        const temp = [...users];
+        const inicio = position;
+        const fin = position + 3;
+        temp.forEach( (user,index)=>{
+            if(index >= inicio && index <= fin )
+                user.visibility = gruposVisibility.current[position/4];
+        });
+
+        controlVisibility(temp);
+    }
+
+    const downPosition = (id,position)=>{
+        downPositionUser(id,position,gruposVisibility.current)
+    }
+
+    const upPosition = (id,position)=>{
+        upPositionUser(id,position,gruposVisibility.current)
     }
 
     return(
@@ -27,9 +73,11 @@ export const TableTimes2 = ({users,numberPlayers,onChangeDateSingle,courts,onCha
                     { 
                         (index + numberPlayers) % numberPlayers === 0 && 
                        
-                        <div className="row mb-3 d-flex align-items-center" style={{background:'#F0F4F7',padding:5}}>
-
+                        <div className="row mb-3 d-flex align-items-center position-relative" style={{background:'#F0F4F7',padding:5,boxShadow:'0px 4px 15px 1px #00000033',borderBottomRightRadius:30}}>
+                            
+                            
                             <div className="col-sm-4 col-12 mb-md-0 mb-2 text-center">
+                                <i className={`fa ${user.visibility ? 'fa-minus-circle' : 'fa-plus-circle'}`} aria-hidden="true" onClick={()=>hideShow(index)} style={{position:'absolute',cursor:'pointer',right:5,bottom:5,fontSize:35,color:'#2e2e2e'}}></i>
                                 <span style={{fontSize:25}}>Cancha: </span>
                                 <span className="badge bg-danger" style={{fontSize:28,marginTop:5,marginLeft:10}}> { (index + numberPlayers) / numberPlayers} </span>
                             </div>
@@ -66,7 +114,7 @@ export const TableTimes2 = ({users,numberPlayers,onChangeDateSingle,courts,onCha
                         
                     }
 
-                    <div style={{
+                    <div className={`${user.visibility ? 'element-show' : 'element-hide'}`} style={{
                         background:"#fff",
                         padding:10,
                         borderRadius:6,
@@ -89,14 +137,14 @@ export const TableTimes2 = ({users,numberPlayers,onChangeDateSingle,courts,onCha
                             {
                                 !disabled &&
                                 users.length-1 !== index ?
-                                <i className="fa fa-arrow-down fa-2x btn-effect2" title="bajar" aria-hidden="true" onClick={()=>downPositionUser(user.id_user,user.position)}></i> :
+                                <i className="fa fa-arrow-down fa-2x btn-effect2" title="bajar" aria-hidden="true" onClick={()=>downPosition(user.id_user,user.position,user.visibility)}></i> :
                                 <i className="fa fa-arrow-down fa-2x" style={{padding:4,opacity:0}} aria-hidden="true"></i>
                             }
                                 <img style={{width:'90px',margin:'10px',borderRadius:"50%",boxShadow: "-3px 3px 15px -2px rgba(0,0,0,0.22)"}} alt="avatar" src={user.img} /> 
                             {
                                 !disabled &&
                                 index > 0  ?
-                                <i className="fa fa-arrow-up fa-2x btn-effect" title="subir" aria-hidden="true" onClick={()=>upPositionUser(user.id_user,user.position)}></i>:
+                                <i className="fa fa-arrow-up fa-2x btn-effect" title="subir" aria-hidden="true" onClick={()=>upPosition(user.id_user,user.position,user.visibility)}></i>:
                                 <i className="fa fa-arrow-down fa-2x" style={{padding:4,opacity:0}} aria-hidden="true"></i>
                             }
                         </div>

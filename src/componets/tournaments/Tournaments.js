@@ -18,7 +18,7 @@ const Tournaments = memo(() => {
     useEffect(() => {
         setContext( context => (
             {   ...context,
-                titlePage : 'Torneos'
+                titlePage : 'Ligas'
             })
         );
     },[setContext]);

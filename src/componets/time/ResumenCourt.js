@@ -1,10 +1,41 @@
-import {useContext} from 'react';
+import {useContext,useState} from 'react';
 import {ContextTournamentsVs} from '../../context/ContextTournamentsVs';
+import {ContextTournaments} from '../../context/ContextTournaments';
+import {EditarHojaResultados} from './EditarHojaResultados';
+
+const img = process.env.PUBLIC_URL +"/assets/img/default/sin-imagen-hoja.jpg";
 
 
 export const ResumenCourt = ({setShowResumen,disabled,set})=>{
 
+
     const { vs,setVs,userP,setUserP} = useContext(ContextTournamentsVs);
+    const { idTournamentDetail } = useContext(ContextTournaments);
+
+    const [editImage, setEditImage] = useState({
+        id:'',
+        cancha:-1,
+        img:''
+    });
+
+    console.log('cancha: ' + set)
+    console.log('torneo: ' + idTournamentDetail)
+
+    const updateData = (id,img)=>{
+        // const temp = [
+        //     ...clubs.data
+        // ];
+
+        // temp.forEach( club => {
+        //     if(club.id === id)
+        //         club.img = img;
+        // });
+        
+        // setClubs({
+        //     ...clubs,
+        //     data:temp
+        // })
+    }
 
   
     const dataGeneral = ()=>{
@@ -41,10 +72,46 @@ export const ResumenCourt = ({setShowResumen,disabled,set})=>{
         setUserP(newUsers);
     }
 
+     const changeImg = (img)=>{
+        setEditImage({
+            id:idTournamentDetail,
+            cancha:set,
+            img,
+        });
+    }
+
     return(
         <>
-            
-            <button type="button" style={{maxWidth:180}} className="btn btn-outline-dark me-2 mb-md-0 mb-1 mt-2 d-flex align-items-center" onClick={ dataGeneral }><i className="fa fa-2x fa-arrow-left me-2" aria-hidden="true"></i> Datos generales</button>
+            <div className="d-flex justify-content-between">
+                <button type="button" style={{height:50}} className="btn btn-outline-dark me-2 mb-md-0 mb-1 mt-0 d-flex align-items-center" onClick={ dataGeneral }><i className="fa fa-2x fa-arrow-left me-2" aria-hidden="true"></i> Regresar</button>
+                {/* <div className="position-relative">
+
+                    <i 
+                        className="fa fa-picture-o" 
+                        aria-hidden="true" 
+                        onClick={()=>changeImg(img)}
+                        style={{
+                            cursor:'pointer',
+                            fontSize:23,
+                            position:'absolute',
+                            right:-18,
+                            top:-9,
+                            padding:7,
+                            background:'#098BEC',
+                            color:'#FFF',
+                            borderRadius:'100%',
+                            opacity:.8
+                        }}>
+                    </i> 
+                    <img 
+                        style={{width:140,boxShadow: "-3px 3px 10px -2px rgba(0,0,0,0.52)"}} 
+                        alt="logo" 
+                        src={img}
+                    />
+
+                </div> */}
+
+            </div>
                 {
                     vs[set].map( (item,index) =>(
                         <div className="row" key={index}> 
@@ -87,6 +154,12 @@ export const ResumenCourt = ({setShowResumen,disabled,set})=>{
                         </div>
                     ))
                 } 
+
+                {
+                    editImage.id
+                    &&
+                    <EditarHojaResultados editImage={editImage} updateData={updateData}/>
+                }
         </>
     )
 }
