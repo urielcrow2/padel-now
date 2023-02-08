@@ -21,6 +21,11 @@ import img4b from'./img/land-04.jpg';
 import img5 from'./img/vertical-05.jpg';
 import img5b from'./img/land-05.jpg';
 
+import img6 from'./img/vertical-06.jpeg';
+import img6b from'./img/land-06.jpeg';
+import img7 from'./img/vertical-07.jpeg';
+import img7b from'./img/land-07.jpeg';
+
 
 const HomeScreen = memo(() => {
 
@@ -91,6 +96,22 @@ const HomeScreen = memo(() => {
                         //     clickable: true,
                         // }}
                     >
+                        <SwiperSlide>
+                            <img
+                                src={widthScreen <= 720 ? img6 : img6b}
+                                className="swiper-lazy"
+                                alt="image9"
+                            />
+                            <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <img
+                                src={widthScreen <= 720 ? img7 : img7b}
+                                className="swiper-lazy"
+                                alt="image9"
+                            />
+                            <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                        </SwiperSlide>
                         <SwiperSlide>
                             <img
                                 src={widthScreen <= 720 ? img1 : img1b}

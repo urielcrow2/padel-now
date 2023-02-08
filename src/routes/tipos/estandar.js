@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Load } from '../../componets';
+import {TournamentsProvider} from '../../context/ContextTournaments';
 import {TournamentsProviderVs} from '../../context/ContextTournamentsVs';
 const HomeScreen = lazy(() => import('../../componets/home/HomeScreen'));
 const PerfilScreen = lazy(() => import('../../componets/perfil/PerfilScreen'));
@@ -19,9 +20,11 @@ export const rutasEstandar = [
     {
         path: '/horarios',
         element: (  <Suspense fallback={<Load/>}> 
-                        <TournamentsProviderVs>
-                            <TimeScreen /> 
-                        </TournamentsProviderVs>
+                        <TournamentsProvider>
+                            <TournamentsProviderVs>
+                                <TimeScreen /> 
+                            </TournamentsProviderVs>
+                        </TournamentsProvider>
                     </Suspense>)
     },
     {

@@ -284,6 +284,7 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
         // bdCopy[4] = temp;
         bdCopy.forEach((user,index)=>{
             user.position = index + 1;
+            user.court = Math.ceil( (index + 1) / 4 );
         })
 
         /******************En este parte mantenemos el show hide por grupo*/
@@ -295,6 +296,9 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
         });
         /*****************************************************************/
         setUserP(bdCopy);
+
+        /*Debemos actualizar los equipos VS */
+        reajustarVs(bdCopy);
     }
 
     const subeYbaja2 = (array)=>{
@@ -327,6 +331,7 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
 
         bdCopy.forEach((user,index)=>{
             user.position = index + 1;
+            user.court = Math.ceil( (index + 1) / 4 );
         })
 
         /******************En este parte mantenemos el show hide por grupo*/
@@ -338,6 +343,64 @@ export const GetUserHook = (journal,idTournament,idClub)=>{
         });
         /*****************************************************************/
         setUserP(bdCopy);
+
+        
+        /*Debemos actualizar los equipos VS */
+        reajustarVs(bdCopy);
+    }
+
+
+    const reajustarVs = (bd)=>{
+    
+        const resultado = [];
+        const sets = [];
+        const tuplas = [];
+        const canchas = bd.length / 4;
+
+        let variante = 0; //en cada cancha vamos tomando en orden de 4 jugadores
+        for(let cancha=0;cancha < canchas; cancha++){
+            for(let set =0;set < 3; set++){
+                let variante1 = 0;
+                let variante2 = 0;
+                for(let tupla=0;tupla<2;tupla++){
+                
+                    if( set === 1 && tupla === 0)
+                        variante2 = 1;
+                    else if( set === 1 && tupla === 1)
+                        variante1 = -1;
+                    else if( set === 2 && tupla === 0)
+                        variante2 = 2;
+                    else if( set === 2 && tupla === 1){
+                        variante1 = -1;
+                        variante2 = -1;
+                    }
+
+                    const desplazamiento1 = variante + tupla + tupla + variante1;
+                    const desplazamiento2 = variante + tupla + tupla + 1 + variante2;
+
+                    tuplas[tupla] = {
+                        "player1":bd[desplazamiento1].id_user,
+                        "name1":bd[desplazamiento1].name,
+                        "img1":bd[desplazamiento1].img,
+
+                        "player2":bd[desplazamiento2].id_user,
+                        "name2":bd[desplazamiento2].name,
+                        "img2":bd[desplazamiento2].img,
+
+                        "points":0
+                    }
+
+                    variante1 = 0;
+                    variante2 = 0;
+                }
+                sets[set] = {...tuplas};
+            }
+            variante += 4;//nos desplazamos a los siguientes 4 jugadores
+            resultado[cancha] = [...sets];
+        }
+
+        setVs(resultado);
+
     }
 
 
