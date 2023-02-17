@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '../../../../../plantilla-raiz/node_modules/@types/react';
 import './load2.css';
 
 export const Load2 = () => {
