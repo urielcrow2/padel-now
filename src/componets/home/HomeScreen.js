@@ -10,21 +10,32 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import './slide.css';
 
-import img1 from'./img/vertical-01.jpg';
-import img1b from'./img/land-01.jpg';
-import img2 from'./img/vertical-02.jpg';
-import img2b from'./img/land-02.jpg';
-import img3 from'./img/vertical-03.jpg';
-import img3b from'./img/land-03.jpg';
-import img4 from'./img/vertical-04.jpeg';
-import img4b from'./img/land-04.jpg';
-import img5 from'./img/vertical-05.jpg';
-import img5b from'./img/land-05.jpg';
+import img1 from'./img/vertical-best-padel.jpg';
+import img1b from'./img/horizontal-best-padel.jpg';
 
-import img6 from'./img/vertical-06.jpeg';
-import img6b from'./img/land-06.jpeg';
-import img7 from'./img/vertical-07.jpeg';
-import img7b from'./img/land-07.jpeg';
+import img2 from'./img/vertical-urban-padel.jpg';
+import img2b from'./img/horizontal-urban-padel.jpg';
+
+import img3 from'./img/vertical-padel-factory.jpg';
+import img3b from'./img/horizontal-padel-factory.jpg';
+
+import img4 from'./img/vertical-providencia.jpeg';
+import img4b from'./img/horizontal-providencia.jpeg';
+
+
+
+//import img5 from'./img/vertical-torneo-1.png';
+import img5b from'./img/vertical-torneo-1.png';
+//import img6 from'./img/vertical-torneo-2.png';
+import img6b from'./img/vertical-torneo-2.png';
+
+
+import img7 from'./img/vertical-03.jpg';
+import img7b from'./img/land-03.jpg';
+
+import img8 from'./img/vertical-04.jpeg';
+import img8b from'./img/land-04.jpg';
+
 
 
 const HomeScreen = memo(() => {
@@ -98,22 +109,6 @@ const HomeScreen = memo(() => {
                     >
                         <SwiperSlide>
                             <img
-                                src={widthScreen <= 720 ? img6 : img6b}
-                                className="swiper-lazy"
-                                alt="image9"
-                            />
-                            <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img
-                                src={widthScreen <= 720 ? img7 : img7b}
-                                className="swiper-lazy"
-                                alt="image9"
-                            />
-                            <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img
                                 src={widthScreen <= 720 ? img1 : img1b}
                                 className="swiper-lazy"
                                 alt="image9"
@@ -129,6 +124,48 @@ const HomeScreen = memo(() => {
                             <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                         </SwiperSlide>
                         <SwiperSlide>
+                            <img
+                                src={widthScreen <= 720 ? img3 : img3b}
+                                className="swiper-lazy"
+                                alt="image9"
+                            />
+                            <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <img
+                                src={widthScreen <= 720 ? img4 : img4b}
+                                className="swiper-lazy"
+                                alt="image9"
+                            />
+                            <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                        </SwiperSlide>
+
+                        {
+                            widthScreen <= 720 &&
+                                <>
+                                    <SwiperSlide>
+                                        <img
+                                            src={img5b}
+                                            className="swiper-lazy"
+                                            alt="image9"
+                                        />
+                                        <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                                    </SwiperSlide>
+                                    <SwiperSlide>
+                                        <img
+                                            src={img6b}
+                                            className="swiper-lazy"
+                                            alt="image9"
+                                        />
+                                        <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                                    </SwiperSlide>
+                                    </>
+                        }
+                        
+
+
+
+                        <SwiperSlide>
                             <div className="redes-sociales">
                                 <div className="logo-instagram">
                                     <a href="https://www.instagram.com/padelcaremx/" target="_blank">
@@ -142,7 +179,7 @@ const HomeScreen = memo(() => {
                                 </a>
                             </div>
                             <img
-                                src={widthScreen <= 720 ? img3 : img3b}
+                                src={widthScreen <= 720 ? img7 : img7b}
                                 className="swiper-lazy"
                                 alt="image9"
                             />
@@ -150,15 +187,7 @@ const HomeScreen = memo(() => {
                         </SwiperSlide>
                         <SwiperSlide>
                             <img
-                                src={widthScreen <= 720 ? img5 : img5b}
-                                className="swiper-lazy"
-                                alt="image9"
-                            />
-                            <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img
-                                src={widthScreen <= 720 ? img4 : img4b}
+                                src={widthScreen <= 720 ? img8 : img8b}
                                 className="swiper-lazy"
                                 alt="image9"
                             />
